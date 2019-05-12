@@ -1,0 +1,16 @@
+{
+  "name": "slack-to-gcal",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "me",
+  "license": "MIT",
+  "dependencies": {
+    "knex": "^0.16.7",
+    "objection": "^1.6.8",
+    "pg": "^7.11.0"
+  }
+}

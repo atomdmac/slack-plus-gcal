@@ -1,0 +1,18 @@
+version: '3.1'
+services:
+  bot:
+    image: node:11
+    ports:
+      - 3000:3000
+    environment:
+      - POSTGRES_USERNAME=slack
+      - POSTGRES_PASSWORD=slack
+      - POSTGRES_DATABASE=default
+      - POSTGRES_HOST=db
+      - SLACK_TOKEN=
+
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USERNAME=slack
+      - POSTGRES_PASSWORD=slack
