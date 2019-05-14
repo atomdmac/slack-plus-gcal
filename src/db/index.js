@@ -4,8 +4,7 @@ const { Model } = require('objection');
 const {
   POSTGRES_HOST: host,
   POSTGRES_USER: user,
-  POSTGRES_PASSWORD: password,
-  POSTGRES_DATABASE: database
+  POSTGRES_PASSWORD: password
 } = process.env;
 
 const knex = Knex({
