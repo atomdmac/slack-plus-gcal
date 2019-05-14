@@ -5,7 +5,7 @@ module.exports = {
   development: {
     client: 'postgresql',
     connection: {
-      database: 'default',
+      database: 'slack',
       user:     'slack',
       password: 'slack'
     },
