@@ -2,15 +2,19 @@
   "name": "slack-to-gcal",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
+    "start": "npx nodemon ./src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "migrate:up": "docker exec slack-to-gcal_bot_1 npx knex migrate:latest"
   },
   "author": "me",
   "license": "MIT",
   "dependencies": {
-    "knex": "^0.16.7",
+    "knex": "^0.16.5",
+    "koa": "^2.7.0",
+    "koa-router": "^7.4.0",
+    "nodemon": "^1.19.0",
     "objection": "^1.6.8",
     "pg": "^7.11.0"
   }

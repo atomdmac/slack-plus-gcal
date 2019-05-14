@@ -1,7 +1,8 @@
 version: '3.1'
 services:
   bot:
-    image: node:11
+    build: .
+    entrypoint: ./entrypoint.sh
     ports:
       - 3000:3000
     environment:
@@ -9,7 +10,7 @@ services:
       POSTGRES_PASSWORD: slack
       POSTGRES_HOST: db
     volumes:
-      - ./:/home/node/app
+      - .:/home/node/app
       - node_modules:/home/node/app/node_modules
 
   db:
