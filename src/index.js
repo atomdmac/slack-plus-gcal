@@ -42,7 +42,8 @@ const debugRouter = new Router({
 });
 debugRouter.get('/users', async (ctx) => {
   const users = await db.models.User
-    .query();
+    .query()
+    .then(results => results.map(result => result.slack_id))
 
   ctx.body = JSON.stringify(users);
 })
