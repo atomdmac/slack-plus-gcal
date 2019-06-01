@@ -40,6 +40,9 @@ commandsRouter.post('/list-events', async (ctx) => {
 const debugRouter = new Router({
   prefix: '/debug'
 });
+debugRouter.get('/ping', (ctx) => {
+  ctx.body = 'PONG!';
+});
 debugRouter.get('/users', async (ctx) => {
   const users = await db.models.User
     .query()
