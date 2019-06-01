@@ -61,20 +61,32 @@ function exchangeAccessCode() {
   return async (ctx) => {
     const oAuth2Client = getOAuthClient();
     const code = ctx.query.code;
-    const slackId = ctx.query.state || 'FAKE FOR NOW';
+    const slackId = ctx.query.state;
     const tokens = await oAuth2Client
       .getToken(code)
       .then(res => res.tokens);
 
-    await db.models.User
+    const existingUser = await db.models.User
       .query()
-      .returning('slack_id')
-      .insert({
-        slack_id: slackId,
+      .where('slack_id', '=', slackId)
+      .update({
         google_access_token: tokens.access_token,
         google_refresh_token: tokens.refresh_token,
         google_token_expiry: new Date(tokens.expiry_date)
-      });
+      })
+      .then(results => !!results.length);
+
+    if (!existingUser) {
+      await db.models.User
+        .query()
+        .returning('slack_id')
+        .insert({
+          slack_id: slackId,
+          google_access_token: tokens.access_token,
+          google_refresh_token: tokens.refresh_token,
+          google_token_expiry: new Date(tokens.expiry_date)
+        });
+    }
 
     ctx.body = 'Congrats, you have been authorized!';
   }
