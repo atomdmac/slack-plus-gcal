@@ -25,10 +25,10 @@ commandsRouter.post('/list-events', async (ctx) => {
           const end = new Date(evt.end.dateTime);
           const endUnix = end.getTime() / 1000;
           return [
-            ` - `,
+            ` ▶ `,
             `(<!date^${startUnix}^{date_num}|${start}}>`,
-            `- <!date^${endUnix}^{date_num}|${end}>)`,
-            `*${evt.summary}*`
+            `<!date^${endUnix}^{date_num}|${end}>)`,
+            ` *${evt.summary}*`
           ].join('')
 
         })
