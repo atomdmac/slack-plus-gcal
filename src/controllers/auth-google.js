@@ -1,6 +1,6 @@
 const {google} = require('googleapis');
-const credentials = require('../config').google.credentials;
-const db = require('./db');
+const credentials = require('../../config').google.credentials;
+const db = require('../db');
 
 // If modifying these scopes, tokens will need to be refreshed.
 const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
@@ -92,24 +92,7 @@ function exchangeAccessCode() {
   }
 }
 
-/**
- * Lists the next 10 events on the user's primary calendar.
- * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
- */
-async function listEvents(auth) {
-  const calendar = google.calendar({version: 'v3', auth});
-  return await calendar.events.list({
-    calendarId: 'primary',
-    timeMin: (new Date()).toISOString(),
-    maxResults: 10,
-    singleEvents: true,
-    orderBy: 'startTime',
-  })
-    .then(response => response.data.items);
-}
-
 module.exports = {
   authorize,
-  exchangeAccessCode,
-  listEvents
+  exchangeAccessCode
 };
