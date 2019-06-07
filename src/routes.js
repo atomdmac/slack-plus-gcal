@@ -13,6 +13,7 @@ const commandsRouter = new Router({
   prefix: '/commands'
 });
 commandsRouter.use(authGoogle.authorize())
+commandsRouter.post('/events/add', commands.addEvent);
 commandsRouter.post('/events/list', commands.listEvents);
 
 const debugRouter = new Router({

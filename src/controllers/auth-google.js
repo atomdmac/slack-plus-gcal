@@ -3,7 +3,9 @@ const credentials = require('../../config').google.credentials;
 const db = require('../db');
 
 // If modifying these scopes, tokens will need to be refreshed.
-const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+const SCOPES = [
+  'https://www.googleapis.com/auth/calendar.events',
+];
 
 // Get an instance of the Google OAuth2Client.
 function getOAuthClient() {
