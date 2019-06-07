@@ -31,15 +31,18 @@ function authorize() {
       .limit(1)
       .then(results => results[0]);
 
-    if (!user || !user.google_access_token) {
-      const authUrl = oAuth2Client.generateAuthUrl({
-        access_type: 'offline',
-        scope: SCOPES,
-        state: ctx.request.body.user_id
-      });
-      ctx.body = {
-        'text': `Sorry, you're not currently logged into Google.  You can fix that <${authUrl}|here>.`
-      };
+    const authUrl = oAuth2Client.generateAuthUrl({
+      access_type: 'offline',
+      scope: SCOPES,
+      state: ctx.request.body.user_id
+    });
+
+    const failureMessage = {
+      text: `Sorry, you're not currently logged into Google.  You can fix that <${authUrl}|here>.`
+    };
+
+    if (!user) {
+      ctx.body = failureMessage;
     } else {
       oAuth2Client.setCredentials({
         access_token: user.google_access_token,
@@ -47,7 +50,19 @@ function authorize() {
         expiry_date: user.google_token_expiry
       });
       ctx.googleOAuth2Client = oAuth2Client;
-      await next();
+
+      await next()
+        .catch(async error => {
+          if (error.code === 401) {
+            await db.models.User
+              .query()
+              .where('slack_id', ctx.request.body.user_id)
+              .delete();
+            ctx.body = failureMessage;
+          } else {
+            throw error;
+          }
+        })
     }
   }
 }
@@ -69,7 +84,7 @@ function exchangeAccessCode() {
     const existingUser = await db.models.User
       .query()
       .where('slack_id', '=', slackId)
-      .update({
+      .patch({
         google_access_token: tokens.access_token,
         google_refresh_token: tokens.refresh_token,
         google_token_expiry: new Date(tokens.expiry_date)
