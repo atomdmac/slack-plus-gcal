@@ -13,7 +13,7 @@
   "dependencies": {
     "dotenv": "^8.0.0",
     "googleapis": "^40.0.0",
-    "knex": "^0.17.1",
+    "knex": "^0.19.5",
     "koa": "^2.7.0",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
